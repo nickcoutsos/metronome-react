@@ -45,7 +45,7 @@ export class Button extends React.Component {
 
 	render() {
 		return (
-			<span ref="el" onClick={e => this.handleClick(e)} className={`button ${this.props.className}`}>
+			<span ref="el" onClick={e => this.handleClick(e)} className="button">
 				{this.props.children}
 			</span>
 		);
@@ -56,9 +56,9 @@ export class Controls extends React.Component {
 	render() {
 		return (
 			<p className="controls">
-				<Button onClick={e => this.props.onBpmDown()} className="bpm-decrement">-</Button>
+				<Button onClick={e => this.props.onBpmDown()}>-</Button>
 				<span className="bpm-display">{this.props.bpm}</span>
-				<Button onClick={e => this.props.onBpmUp()} className="bpm-increment">+</Button>
+				<Button onClick={e => this.props.onBpmUp()}>+</Button>
 			</p>
 		);
 	}

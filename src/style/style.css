@@ -215,14 +215,14 @@ body {
     text-shadow: 0px 0px 5px #cedff0;
     border-color: #cedff0;
 }
-.bpm-decrement {
+.controls :first-child {
     position: absolute;
     left: -1px;
     bottom: 0px;
     
     border-bottom-left-radius: 10px;
 }
-.bpm-increment {
+.controls :last-child {
     position: absolute;
     right: -1px;
     bottom: 0px;
