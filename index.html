@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Bringin' the beats to the browsers.">
+<link rel="stylesheet" href="src/style/style.css">
+<title>Metronome</title>
+<script src="http://html5man.com/jslibs/puredom.js"></script>
+</head>
+<body>
+<html>
+    <body>
+        <div id="header">
+            <h1>Metronome!</h1>
+        </div>
+        <div id="content">
+            <p>Increase or decrease BPM with the (<code>+</code>/<code>-</code>), (<code>&lt;left arrow&gt;</code>/<code>&lt;right arrow&gt;</code>) keys, or mousewheel. Start/stop the metronome with <code>&lt;space&gt;</code> or by clicking on the metronome.</p>
+            <p>Hold <code>&lt;shift&gt;</code> while to shift by 10bpm at a time instead of one.</p>
+            <div class="metronome">
+                <div class="meter">
+                    <div class="needle">
+                    </div>
+                </div>
+                    <p class="controls">
+                        <span class="button bpm-decrement">-</span>
+                        <span class="bpm-display">0</span>
+                        <span class="button bpm-increment">+</span>
+                    </p>
+            </div>
+        </div>
+        
+        <div id="footer">
+            <p>.</p>
+        </div>
+
+        <script type="text/javascript" src="src/index.js"></script>
+    </body>
+</html>
