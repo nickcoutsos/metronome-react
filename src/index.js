@@ -1,7 +1,5 @@
-var Metronome = function() {};
-puredom.extend(Metronome.prototype, {
-
-	init: function(selector, bpm, sfx_url){
+class Metronome {
+	constructor(selector, bpm, sfx_url) {
 		this.selector = selector;
 		this.metronome = puredom(this.selector);
 		this.bpm = bpm || 60;
@@ -54,9 +52,9 @@ puredom.extend(Metronome.prototype, {
 		});
 
 		this._on_bpm_update();
-	},
+	}
 
-	increment: function(amount) {
+	increment(amount) {
 		var amount = amount || 1;
 		if (this.bpm < 200) {
 			this.bpm = Math.min(200, this.bpm + amount);
@@ -68,9 +66,9 @@ puredom.extend(Metronome.prototype, {
 		setTimeout(function(){
 			self.metronome.query('.bpm-increment').declassify('flash');
 		}, 100);
-	},
+	}
 
-	decrement: function(amount) {
+	decrement(amount) {
 		var amount = amount || 1;
 		if (this.bpm > 1) {
 			this.bpm = Math.max(1, this.bpm - amount);
@@ -82,17 +80,17 @@ puredom.extend(Metronome.prototype, {
 		setTimeout(function(){
 			self.metronome.query('.bpm-decrement').declassify('flash');
 		}, 100);
-	},
+	}
 
-	seconds_per_beat: function() {
+	seconds_per_beat() {
 		return 60 / this.bpm;
-	},
+	}
 
-	running: function() {
+	running() {
 		return this._interval != null;
-	},
+	}
 
-	_on_bpm_update: function() {
+	_on_bpm_update() {
 		var duration = this.seconds_per_beat() + 's';
 
 		this.metronome.query('.bpm-display').text(this.bpm);
@@ -111,9 +109,9 @@ puredom.extend(Metronome.prototype, {
 				self = null;
 			},100);
 		}
-	},
+	}
 
-	_beat: function() {
+	_beat() {
 		if (this._beats % 2 == 0) {
 			//this._sfx.tick.currentTime = 0.0885;
 			//this._sfx.tick.play();
@@ -142,26 +140,26 @@ puredom.extend(Metronome.prototype, {
 			}, this.seconds_per_beat() * 500, 'ease');
 
 		this._beats++;
-	},
+	}
 
-	toggle: function() {
+	toggle() {
 		if (!this.running()) {
 			this.start();
 		} else {
 			this.stop();
 		}
-	},
+	}
 
-	start: function() {
+	start() {
 		this._beats = 0;
 
 		this.metronome.query('.needle').classify('needle-animating');
 
 		var that = this;
 		this._interval = setInterval(function(){that._beat();}, this.seconds_per_beat() * 1000);
-	},
+	}
 
-	stop: function() {
+	stop() {
 		if (this.running()) {
 			this.metronome.query('.needle').declassify('needle-animating');
 
@@ -169,7 +167,8 @@ puredom.extend(Metronome.prototype, {
 			this._interval = null;
 		}
 	}
-});
+}
+
 function set_metronome_size() {
 	var content = puredom('#content');
 	var metronome = content.query('.metronome');
@@ -200,10 +199,9 @@ function set_content_size() {
 
 	set_metronome_size();
 }
-var metronome = {};
+
 puredom(function(){
-	metronome = new Metronome();
-	metronome.init('.metronome', 90);
+	var metronome = new Metronome('.metronome', 90);
 	set_content_size();
 });
 puredom(window).on('resize', set_content_size);

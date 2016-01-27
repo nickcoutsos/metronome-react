@@ -1,0 +1,13 @@
+{
+	"extends": "eslint:recommended",
+	"ecmaFeatures": {
+		"modules": true
+	},
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"rules": {
+		"no-console": fale
+	}
+}
