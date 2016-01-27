@@ -1,45 +1,6 @@
 import React from 'react';
 import EventEmitter from 'eventemitter3';
 
-// this._interval = null;
-// 		this._beats = 0;
-
-
-// 		this.metronome.query('.meter').addEvent('click', e => this.toggle());
-// 		this.metronome.query('.bpm-increment').addEvent('click', e => this.increment());
-// 		this.metronome.query('.bpm-decrement').addEvent('click', e => this.decrement());
-// 		puredom(document).on('keyDown', e => {
-// 			var amount = 1;
-// 			if (e.shiftKey) {
-// 				amount = 10;
-// 			}
-
-// 			if (e.keyCode == 187 || e.keyCode == 39) {
-// 				this.increment(amount);
-// 			} else if (e.keyCode == 189 || e.keyCode == 37) {
-// 				this.decrement(amount);
-// 			} else if (e.keyCode == 32) {
-// 				this.toggle();
-// 			}
-// 		});
-
-// 		puredom(window).on('blur', e => this.stop());
-// 		this.metronome.on('mousewheel', e => {
-// 			var amount = 1;
-// 			if (e.shiftKey) {
-// 				amount = 10;
-// 			}
-// 			if (Math.abs(e.wheelDeltaY) > Math.abs(e.wheelDeltaX)){ 
-// 				if (e.wheelDeltaY > 0) {
-// 					this.increment(amount);
-// 				}
-// 				else {
-// 					this.decrement(amount);
-// 				}
-// 			}
-// 		});
-
-// 		this._on_bpm_update();
 
 // export let Meter = React.createClass({
 export class Meter extends React.Component {
@@ -76,7 +37,24 @@ export class Metronome extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		window.addEventListener('blur', e => this.stop());
+		window.addEventListener('keydown', e => {
+			var amount = e.shiftKey ? 10 : 1;
+
+			if (e.keyCode == 187 || e.keyCode == 39) {
+				this.increment(amount);
+			} else if (e.keyCode == 189 || e.keyCode == 37) {
+				this.decrement(amount);
+			} else if (e.keyCode == 32) {
+				this.toggle();
+			}
+		});
+
+	}
+
 	beat() {
+		console.log('beat');
 		this.state.beats % 2 == 0 ? this.playTick() : this.playTock();
 		this.setState({ beats: ++this.state.beats });
 
@@ -128,6 +106,17 @@ export class Metronome extends React.Component {
 		// setTimeout(() => this.metronome.query('.bpm-increment').declassify('flash'), 100);
 	}
 
+	scroll(e) {
+		// ignore scroll events that are "more horizontal" than vertical
+		if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+		var amount = e.shiftKey ? 10 : 1;
+
+		e.deltaY < 0 ?
+			this.increment(amount) :
+			this.decrement(amount);
+	}
+
 	playTick() {}
 	playTock() {}
 
@@ -159,7 +148,7 @@ export class Metronome extends React.Component {
 
 	render() {
 		return (
-			<div className="metronome">
+			<div className="metronome" onWheel={e => this.scroll(e)}>
 				<Meter onClick={e => this.toggle()} />
 				<Controls bpm={this.state.bpm} onBpmUp={e => this.increment()} onBpmDown={e => this.decrement()} />
 			</div>
