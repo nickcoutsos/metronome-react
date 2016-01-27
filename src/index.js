@@ -16,37 +16,37 @@ class Metronome {
 		this._interval = null;
 		this._beats = 0;
 
-		var that = this;
-		this.metronome.query('.meter').addEvent('click', function(){that.toggle()});
-		this.metronome.query('.bpm-increment').addEvent('click', function(){that.increment()});
-		this.metronome.query('.bpm-decrement').addEvent('click', function(){that.decrement()});
-		puredom(document).on('keyDown', function(e){
+
+		this.metronome.query('.meter').addEvent('click', e => this.toggle());
+		this.metronome.query('.bpm-increment').addEvent('click', e => this.increment());
+		this.metronome.query('.bpm-decrement').addEvent('click', e => this.decrement());
+		puredom(document).on('keyDown', e => {
 			var amount = 1;
 			if (e.shiftKey) {
 				amount = 10;
 			}
 
 			if (e.keyCode == 187 || e.keyCode == 39) {
-				that.increment(amount);
+				this.increment(amount);
 			} else if (e.keyCode == 189 || e.keyCode == 37) {
-				that.decrement(amount);
+				this.decrement(amount);
 			} else if (e.keyCode == 32) {
-				that.toggle();
+				this.toggle();
 			}
 		});
 
-		puredom(window).on('blur', function(e) { that.stop(); });
-		this.metronome.on('mousewheel', function(e) {
+		puredom(window).on('blur', e => this.stop());
+		this.metronome.on('mousewheel', e => {
 			var amount = 1;
 			if (e.shiftKey) {
 				amount = 10;
 			}
 			if (Math.abs(e.wheelDeltaY) > Math.abs(e.wheelDeltaX)){ 
 				if (e.wheelDeltaY > 0) {
-					that.increment(amount);
+					this.increment(amount);
 				}
 				else {
-					that.decrement(amount);
+					this.decrement(amount);
 				}
 			}
 		});
@@ -61,11 +61,8 @@ class Metronome {
 			this._on_bpm_update();
 		}
 
-		var self = this;
 		this.metronome.query('.bpm-increment').classify('flash');
-		setTimeout(function(){
-			self.metronome.query('.bpm-increment').declassify('flash');
-		}, 100);
+		setTimeout(() => this.metronome.query('.bpm-increment').declassify('flash'), 100);
 	}
 
 	decrement(amount) {
@@ -75,11 +72,8 @@ class Metronome {
 			this._on_bpm_update();
 		}
 
-		var self = this;
 		this.metronome.query('.bpm-decrement').classify('flash');
-		setTimeout(function(){
-			self.metronome.query('.bpm-decrement').declassify('flash');
-		}, 100);
+		setTimeout(() => this.metronome.query('.bpm-decrement').declassify('flash'), 100);
 	}
 
 	seconds_per_beat() {
@@ -102,12 +96,8 @@ class Metronome {
 		});
 
 		if (this.running()) {
-			var self = this;
 			this.stop();
-			setTimeout(function() {
-				self.start();
-				self = null;
-			},100);
+			setTimeout(() => this.start(),100);
 		}
 	}
 
@@ -155,8 +145,7 @@ class Metronome {
 
 		this.metronome.query('.needle').classify('needle-animating');
 
-		var that = this;
-		this._interval = setInterval(function(){that._beat();}, this.seconds_per_beat() * 1000);
+		this._interval = setInterval(() => this._beat(), this.seconds_per_beat() * 1000);
 	}
 
 	stop() {
