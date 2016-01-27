@@ -1,4 +1,4 @@
-Metronome = function() {};
+var Metronome = function() {};
 puredom.extend(Metronome.prototype, {
 
 	init: function(selector, bpm, sfx_url){
@@ -18,7 +18,7 @@ puredom.extend(Metronome.prototype, {
 		this._interval = null;
 		this._beats = 0;
 
-		that = this;
+		var that = this;
 		this.metronome.query('.meter').addEvent('click', function(){that.toggle()});
 		this.metronome.query('.bpm-increment').addEvent('click', function(){that.increment()});
 		this.metronome.query('.bpm-decrement').addEvent('click', function(){that.decrement()});
@@ -129,7 +129,7 @@ puredom.extend(Metronome.prototype, {
 		this.metronome.query('.meter')
 			.animate(function(f) {
 				var saturation = Math.round((1 - f) * 45 + 14),
-					hsl_inner = 'hsl(210, ' + saturation + '%, ' + ((1 - f) * 5 + 82) + '%)'
+					hsl_inner = 'hsl(210, ' + saturation + '%, ' + ((1 - f) * 5 + 82) + '%)',
 					hsl_outer = 'hsl(210, ' + saturation + '%, ' + ((1 - f) * 20 + 64) + '%)',
 					gradient = (
 						'(bottom right, circle cover, '
@@ -157,7 +157,7 @@ puredom.extend(Metronome.prototype, {
 
 		this.metronome.query('.needle').classify('needle-animating');
 
-		that = this;
+		var that = this;
 		this._interval = setInterval(function(){that._beat();}, this.seconds_per_beat() * 1000);
 	},
 
@@ -190,17 +190,17 @@ function set_metronome_size() {
 	});
 }
 function set_content_size() {
-	window_height = puredom('body').height();
-	header_height = puredom('#header').height({border:true, padding:true, margin:true});
-	footer_height = puredom('#footer').height({border:true, padding:true});
+	var window_height = puredom('body').height();
+	var header_height = puredom('#header').height({border:true, padding:true, margin:true});
+	var footer_height = puredom('#footer').height({border:true, padding:true});
 
-	new_height = window_height - header_height - footer_height;
+	var new_height = window_height - header_height - footer_height;
 
 	puredom('#content').css({'height': new_height + 'px'});
 
 	set_metronome_size();
 }
-metronome = {};
+var metronome = {};
 puredom(function(){
 	metronome = new Metronome();
 	metronome.init('.metronome', 90);
