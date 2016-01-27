@@ -4,10 +4,28 @@ import EventEmitter from 'eventemitter3';
 
 // export let Meter = React.createClass({
 export class Meter extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.state = { animating: false };
+	}
+
+	start() {
+		this.setState({ animating: true });
+	}
+
+	stop() {
+		this.setState({ animating: false });
+	}
+
 	render() {
+		let style = { animationDuration: `${this.props.secondsPerBeat}s` },
+			needleClasses = ['needle'];
+
+		if (this.state.animating) needleClasses.push('needle-animating');
+
 		return (
 			<div className="meter" onClick={this.props.onClick}>
-				<div className="needle">
+				<div className={needleClasses.join(' ')} style={style}>
 				</div>
 			</div>
 		);
@@ -54,7 +72,6 @@ export class Metronome extends React.Component {
 	}
 
 	beat() {
-		console.log('beat');
 		this.state.beats % 2 == 0 ? this.playTick() : this.playTock();
 		this.setState({ beats: ++this.state.beats });
 
@@ -82,10 +99,6 @@ export class Metronome extends React.Component {
 		let secondsPerBeat = 60 / bpm;
 		this.setState({ bpm });
 
-		// puredom('.needle').css({
-		// 	'animation-duration': `${secondsPerBeat}s`
-		// });
-
 		if (this.state.running) {
 			this.stop();
 			setTimeout(() => this.start(), 100);
@@ -106,7 +119,7 @@ export class Metronome extends React.Component {
 		// setTimeout(() => this.metronome.query('.bpm-increment').declassify('flash'), 100);
 	}
 
-	scroll(e) {
+	handleScroll(e) {
 		// ignore scroll events that are "more horizontal" than vertical
 		if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
 
@@ -121,8 +134,7 @@ export class Metronome extends React.Component {
 	playTock() {}
 
 	start() {
-
-		// this.metronome.query('.needle').classify('needle-animating');
+		this.refs.meter.start();
 
 		let secondsPerBeat = 60 / this.state.bpm;
 
@@ -136,10 +148,13 @@ export class Metronome extends React.Component {
 	stop() {
 		if (!this.state.running) return;
 
-		// this.metronome.query('.needle').declassify('needle-animating');
+		this.refs.meter.stop();
+
 		clearInterval(this.state.interval);
-		this.state.interval = null;
-		this.state.running = false;
+		this.setState({
+			interval: null,
+			running: false
+		});
 	}
 
 	toggle() {
@@ -148,8 +163,8 @@ export class Metronome extends React.Component {
 
 	render() {
 		return (
-			<div className="metronome" onWheel={e => this.scroll(e)}>
-				<Meter onClick={e => this.toggle()} />
+			<div className="metronome" onWheel={e => this.handleScroll(e)}>
+				<Meter ref="meter" onClick={e => this.toggle()} secondsPerBeat={60 / this.state.bpm} />
 				<Controls bpm={this.state.bpm} onBpmUp={e => this.increment()} onBpmDown={e => this.decrement()} />
 			</div>
 		)
