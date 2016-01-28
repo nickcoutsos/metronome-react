@@ -1,6 +1,4 @@
 import React from 'react';
-import EventEmitter from 'eventemitter3';
-
 
 // export let Meter = React.createClass({
 export class Meter extends React.Component {
