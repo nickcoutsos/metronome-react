@@ -4,6 +4,8 @@
   "description": "A rewrite of my earlier HTML/CSS/JS metronome to build the UI using react",
   "main": "index.js",
   "scripts": {
+    "build": "mkdir -p build && cp src/index.html src/style.css build/ && webpack -dp",
+    "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
