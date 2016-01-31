@@ -1,10 +1,36 @@
 import React from 'react';
 
+/**
+ * Quadratic tweening using requestAnimationFrame for timing.
+ *
+ * For each frame during the given duration an appropriate value between 0 and 1
+ * is calculated and passed as an argument in a call to the given function.
+ * The provided function is guaranteed to be called at least once with the final
+ * value of 1.
+ *
+ * @param {Number}	duration	length of tween in milliseconds.
+ * @param {Fucntion}	fn	function to be called with tweened values.
+ */
+function tween(duration, fn) {
+	let start = Date.now(),
+		step = function() {
+			let d = Date.now() - start,
+				t = d / duration,
+				y = t*t;
+
+			if (d >= duration) return fn(1);
+
+			fn(y) !== false && requestAnimationFrame(step);
+		};
+
+	step();
+}
+
 // export let Meter = React.createClass({
 export class Meter extends React.Component {
 	constructor(...args) {
 		super(...args);
-		this.state = { animating: false };
+		this.state = { animating: false, background: '' };
 	}
 
 	start() {
@@ -15,6 +41,20 @@ export class Meter extends React.Component {
 		this.setState({ animating: false });
 	}
 
+	flash() {
+		tween(this.props.secondsPerBeat * 500, f => {
+			if (!this.state.animating) return false;
+			let sat = Math.round((1 - f) * 45 + 14),
+				inner = `hsl(210, ${sat}%, ${(1 - f) * 5 + 82}%)`,
+				outer = `hsl(210, ${sat}%, ${(1 - f) * 20 + 64}%)`,
+				gradient = `circle farthest-corner at bottom right, ${inner}, ${outer} 70%`;
+
+			this.setState({ background : `radial-gradient(${gradient})`})
+
+			return true;
+		});
+	}
+
 	render() {
 		let style = { animationDuration: `${this.props.secondsPerBeat}s` },
 			needleClasses = ['needle'];
@@ -22,7 +62,7 @@ export class Meter extends React.Component {
 		if (this.state.animating) needleClasses.push('needle-animating');
 
 		return (
-			<div className="meter" onClick={this.props.onClick}>
+			<div ref="meter" className="meter" onClick={this.props.onClick} style={ {background: this.state.background} }>
 				<div className={needleClasses.join(' ')} style={style} />
 			</div>
 		);
@@ -92,6 +132,7 @@ export class Metronome extends React.Component {
 	beat() {
 		this.state.beats % 2 == 0 ? this.playTick() : this.playTock();
 		this.setState({ beats: ++this.state.beats });
+		this.refs.meter.flash();
 	}
 
 	setBpm(bpm) {
