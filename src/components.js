@@ -93,18 +93,6 @@ export class Button extends React.Component {
 	}
 }
 
-export class Controls extends React.Component {
-	render() {
-		return (
-			<p className="controls">
-				<Button onClick={e => this.props.onBpmDown()}>-</Button>
-				<span className="bpm-display">{this.props.bpm}</span>
-				<Button onClick={e => this.props.onBpmUp()}>+</Button>
-			</p>
-		);
-	}
-}
-
 export class Metronome extends React.Component {
 	constructor(...args) {
 		super(...args);
@@ -122,8 +110,10 @@ export class Metronome extends React.Component {
 			var amount = e.shiftKey ? 10 : 1;
 
 			if (e.keyCode == 187 || e.keyCode == 39) {
+				this.refs.bpmUp.flash()
 				this.increment(amount);
 			} else if (e.keyCode == 189 || e.keyCode == 37) {
+				this.refs.bpmDown.flash()
 				this.decrement(amount);
 			} else if (e.keyCode == 32) {
 				this.toggle();
@@ -204,7 +194,11 @@ export class Metronome extends React.Component {
 		return (
 			<div className="metronome" onWheel={e => this.handleScroll(e)}>
 				<Meter ref="meter" onClick={e => this.toggle()} secondsPerBeat={60 / this.state.bpm} />
-				<Controls bpm={this.state.bpm} onBpmUp={e => this.increment()} onBpmDown={e => this.decrement()} />
+				<p className="controls">
+					<Button ref="bpmDown" onClick={e => this.decrement()}>-</Button>
+					<span className="bpm-display">{this.state.bpm}</span>
+					<Button ref="bpmUp" onClick={e => this.increment()}>+</Button>
+				</p>
 			</div>
 		)
 	}
