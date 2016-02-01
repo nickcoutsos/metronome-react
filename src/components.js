@@ -73,9 +73,28 @@ export class Meter extends React.Component {
 }
 
 export class Button extends React.Component {
+	componentDidMount() {
+		window.addEventListener('keydown', this.handleKey.bind(this));
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('keydown', this.handleKey.bind(this));
+	}
+
+	handleKey(e) {
+		var keyCodes = this.props.keyCode.split(',');
+		var amount = e.shiftKey ? 10 : 1;
+
+		if (keyCodes.indexOf(String(e.keyCode)) > -1) this.action();
+	}
+
 	handleClick(e) {
-		if (this.props.onClick) this.props.onClick(e);
+		this.action();
+	}
+
+	action() {
 		this.flash();
+		if (this.props.onTrigger) this.props.onTrigger();
 	}
 
 	flash() {
@@ -107,15 +126,7 @@ export class Metronome extends React.Component {
 	componentDidMount() {
 		window.addEventListener('blur', e => this.stop());
 		window.addEventListener('keydown', e => {
-			var amount = e.shiftKey ? 10 : 1;
-
-			if (e.keyCode == 187 || e.keyCode == 39) {
-				this.refs.bpmUp.flash()
-				this.increment(amount);
-			} else if (e.keyCode == 189 || e.keyCode == 37) {
-				this.refs.bpmDown.flash()
-				this.decrement(amount);
-			} else if (e.keyCode == 32) {
+			if (e.keyCode == 32) {
 				this.toggle();
 			}
 		});
@@ -195,9 +206,9 @@ export class Metronome extends React.Component {
 			<div className="metronome" onWheel={e => this.handleScroll(e)}>
 				<Meter ref="meter" onClick={e => this.toggle()} secondsPerBeat={60 / this.state.bpm} />
 				<p className="controls">
-					<Button ref="bpmDown" onClick={e => this.decrement()}>-</Button>
+					<Button keyCode="189,37" onTrigger={e => this.decrement()}>-</Button>
 					<span className="bpm-display">{this.state.bpm}</span>
-					<Button ref="bpmUp" onClick={e => this.increment()}>+</Button>
+					<Button keyCode="187,39" onTrigger={e => this.increment()}>+</Button>
 				</p>
 			</div>
 		)
@@ -206,6 +217,6 @@ export class Metronome extends React.Component {
 
 export default {
 	Meter,
-	Controls,
+	Button,
 	Metronome
 }
