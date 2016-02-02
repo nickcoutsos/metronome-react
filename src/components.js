@@ -134,7 +134,12 @@ export class Metronome extends React.Component {
 	}
 
 	beat() {
-		this.state.beats % 2 == 0 ? this.playTick() : this.playTock();
+		let handler = this.state.beats % 2 == 0 ?
+			this.props.onTick :
+			this.props.onTock;
+
+		if (handler) handler();
+
 		this.setState({ beats: ++this.state.beats });
 		this.refs.meter.flash();
 	}
@@ -167,9 +172,6 @@ export class Metronome extends React.Component {
 			this.increment(amount) :
 			this.decrement(amount);
 	}
-
-	playTick() {}
-	playTock() {}
 
 	start() {
 		this.refs.meter.start();
