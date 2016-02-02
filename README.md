@@ -46,8 +46,8 @@ project and make it somewhat less shameful.
 ### Remaining
 
 * Get a better understanding of React best practices; clean some things up
-* Implement sound effects via, I don't know, sine waves? I just don't want to
-bother with extra files I guess
+* ~~Implement sound effects via, I don't know, sine waves? I just don't want to
+bother with extra files I guess~~
 * ~~Implement tweening for non-css-animatable properties missing from the original~~
 * There's a good deal of ancient CSS that could be... improved upon
 
