@@ -36,12 +36,9 @@ body {
     font-size: 9px;
     text-align: center;
     color: #555;
-    
-    background: -webkit-linear-gradient(bottom, #CDE 0%, #E6EEF7 70%);
-    background: -moz-linear-gradient(to top, #CDE 0%, #E6EEF7 70%);
-    background: -o-linear-gradient(bottom, #CDE 0%, #E6EEF7 70%);
+
     background: linear-gradient(to top, #CDE 0%, #E6EEF7 70%);
-    
+
     border-top: 2px solid #EFEFFF;
     box-shadow: 0px 10px 40px -5px;
 }
@@ -53,21 +50,15 @@ body {
     width: 275px;
     height: 275px;
     margin: 25px auto;
-    
-    background: -webkit-radial-gradient(25% 20%, ellipse cover, #E6EEF7 0%,#CDE 93%);
-    background: -moz-radial-gradient(25% 20%, ellipse cover, #E6EEF7 0%,#CDE 93%);
-    background: -o-radial-gradient(25% 20%, ellipse cover, #E6EEF7 0%,#CDE 93%);
-    background: radial-gradient(25% 20%, ellipse cover, #E6EEF7 0%,#CDE 93%);
-    
+
+    background: radial-gradient(ellipse at 25% 20%, #E6EEF7 0%, #CDE 93%);
+
     border-top: 1px solid #def;
     border-left: 1px solid #def;
     border-right: 1px solid #bcd;
     border-bottom: 1px solid #bcd;
-    
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
     border-radius: 12px;
-    
+
     box-shadow: 2px 2px 55px -10px;
 }
 .meter {
@@ -75,32 +66,12 @@ body {
     left: 50%;
     top: -15%;
     overflow: hidden;
-    
+
     width: 60%;
     height: 60%;
     margin: 0px;
     border: .3em solid #bcd;
-    
-    background: -webkit-radial-gradient(bottom right, circle cover, hsl(210, 14%, 82%), hsl(210, 14%, 64%) 70%);
-    background: -moz-radial-gradient(bottom right, circle cover, hsl(210, 14%, 82%), hsl(210, 14%, 64%) 70%);
-    background: -o-radial-gradient(bottom right, circle cover, hsl(210, 14%, 82%), hsl(210, 14%, 64%) 70%);
-    background: radial-gradient(bottom right, circle cover, hsl(210, 14%, 82%), hsl(210, 14%, 64%) 70%);
-    
-    -webkit-border-radius: 95% 0 0 0;
-    -webkit-transform: rotate(45deg);
-    -webkit-transform-origin: 0 0;
-    -webkit-box-shadow: 3px 3px 15px -5px inset;
-    
-    -moz-border-radius: 98% 0 0 0;
-    -moz-transform: rotate(45deg);
-    -moz-transform-origin: 0 0;
-    -moz-box-shadow: 3px 3px 15px -5px inset;
-    
-    -o-border-radius: 95% 0 0 0;
-    -o-transform: rotate(45deg);
-    -o-transform-origin: 0 0;
-    -o-box-shadow: 3px 3px 15px -5px inset;
-    
+
     border-radius: 98% 0 0 0;
     transform: rotate(45deg);
     transform-origin: 0 0;
@@ -111,39 +82,16 @@ body {
     position: absolute;
     bottom: -3px;
     right: 0px;
-    
+
     background: gray;
     width: 95%;
     height: 6px;
     border-left: 2px solid #FFAA00;
 }
-.needle-beat {
-    background: #FF0000;
-}
+
 .needle-animating {
     display: block;
-    
-    -webkit-animation-name: needle-tick;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-direction: alternate;
-    -webkit-animation-play-state: running;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: ease-in-out;
-    
-    -moz-animation-name: needle-tick;
-    -moz-animation-duration: 1.5s;
-    -moz-animation-direction: alternate;
-    -moz-animation-play-state: running;
-    -moz-animation-iteration-count: infinite;
-    -moz-animation-timing-function: ease-in-out;
-    
-    -o-animation-name: needle-tick;
-    -o-animation-duration: 1.5s;
-    -o-animation-direction: alternate;
-    -o-animation-play-state: running;
-    -o-animation-iteration-count: infinite;
-    -o-animation-timing-function: ease-in-out;
-    
+
     animation-name: needle-tick;
     animation-duration: 1.5s;
     animation-direction: alternate;
@@ -151,36 +99,7 @@ body {
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
-@-webkit-keyframes needle-tick {
-    0% {
-        -webkit-transform: rotate(0deg);
-        -webkit-transform-origin: 100% 50%;
-    }
-    100% {
-        -webkit-transform: rotate(90deg);
-        -webkit-transform-origin: 100% 50%;
-    }
-}
-@-moz-keyframes needle-tick {
-    0% {
-        -moz-transform: rotate(0deg);
-        -moz-transform-origin: 100% 50%;
-    }
-    100% {
-        -moz-transform: rotate(90deg);
-        -moz-transform-origin: 100% 50%;
-    }
-}
-@-o-keyframes needle-tick {
-    0% {
-        -o-transform: rotate(0deg);
-        -o-transform-origin: 100% 50%;
-    }
-    100% {
-        -o-transform: rotate(90deg);
-        -o-transform-origin: 100% 50%;
-    }
-}
+
 @keyframes needle-tick {
     0% {
         transform: rotate(0deg);
@@ -191,6 +110,7 @@ body {
         transform-origin: 100% 50%;
     }
 }
+
 .controls {
     position: absolute;
     bottom: 0px;
