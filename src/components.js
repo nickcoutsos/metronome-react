@@ -30,7 +30,7 @@ function tween(duration, fn) {
 export class Meter extends React.Component {
 	constructor(...args) {
 		super(...args);
-		this.state = { animating: false, background: '' };
+		this.state = { animating: false, tween: 0 };
 	}
 
 	start() {
@@ -38,35 +38,37 @@ export class Meter extends React.Component {
 	}
 
 	stop() {
-		this.setState({ animating: false });
+		this.setState({ animating: false, tween: 0 });
 	}
 
 	flash() {
 		tween(this.props.secondsPerBeat * 500, f => {
-			if (!this.state.animating) return false;
-			let sat = Math.round((1 - f) * 45 + 14),
-				inner = `hsl(210, ${sat}%, ${(1 - f) * 5 + 82}%)`,
-				outer = `hsl(210, ${sat}%, ${(1 - f) * 20 + 64}%)`,
-				gradient = `circle farthest-corner at bottom right, ${inner}, ${outer} 70%`;
-
-			this.setState({
-				meterBackground : `radial-gradient(${gradient})`,
-				needleBackground : `hsl(0, ${(1 - f) * 100}%, 50%)`
-			});
-
-			return true;
+			this.state.animating && this.setState({ tween: 1 - f });
+			return this.state.animating;
 		});
 	}
 
 	render() {
-		let style = { animationDuration: `${this.props.secondsPerBeat}s`, backgroundColor : this.state.needleBackground },
-			needleClasses = ['needle'];
+		let saturation = Math.round(this.state.tween * 45 + 14),
+			meterStyle = {
+				background: `radial-gradient(
+					circle farthest-corner at bottom right,
+					hsl(210, ${saturation}%, ${this.state.tween * 5 + 82}%),
+					hsl(210, ${saturation}%, ${this.state.tween * 20 + 64}%)
+					70%
+				)`
+			},
+			needleStyle = {
+				animationDuration: `${this.props.secondsPerBeat}s`,
+				backgroundColor: `hsl(0, ${this.state.tween * 100}%, 50%)`
+			};
 
+		let needleClasses = ['needle'];
 		if (this.state.animating) needleClasses.push('needle-animating');
 
 		return (
-			<div ref="meter" className="meter" onClick={this.props.onClick} style={ {background: this.state.meterBackground} }>
-				<div className={needleClasses.join(' ')} style={style} />
+			<div ref="meter" className="meter" onClick={this.props.onClick} style={ meterStyle }>
+				<div className={needleClasses.join(' ')} style={ needleStyle } />
 			</div>
 		);
 	}
