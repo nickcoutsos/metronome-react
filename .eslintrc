@@ -1,13 +1,17 @@
 {
 	"extends": "eslint:recommended",
 	"ecmaFeatures": {
+        "jsx": true,
 		"modules": true
 	},
 	"env": {
 		"es6": true,
-		"node": true
+		"browser": true
 	},
+    "plugins": [
+        "react"
+    ],
 	"rules": {
-		"no-console": fale
+		"no-console": 0
 	}
 }
