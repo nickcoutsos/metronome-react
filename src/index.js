@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import components from './components';
 
@@ -24,35 +25,33 @@ function setContentSize() {
 }
 
 
-class Synth {
-	constructor(initialFrequency) {
-		let audioContext = new AudioContext();
+// class Synth {
+// 	constructor(initialFrequency) {
+// 		let audioContext = new AudioContext();
+//
+// 		this.gain = audioContext.createGain();
+// 		this.gain.gain.value = 0;
+// 		this.gain.connect(audioContext.destination);
+//
+// 		this.oscillator = audioContext.createOscillator();
+// 		this.oscillator.type = 'square';
+// 		this.oscillator.frequency.value = initialFrequency;
+// 		this.oscillator.start();
+// 		this.oscillator.connect(this.gain);
+// 	}
+//
+// 	playFrequency(freq, duration) {
+// 		this.oscillator.frequency.value = freq;
+// 		this.gain.gain.value = 0.6;
+// 		setTimeout(() => this.gain.gain.value = 0.001, duration);
+// 	}
+// }
 
-		this.gain = audioContext.createGain();
-		this.gain.gain.value = 0;
-		this.gain.connect(audioContext.destination);
 
-		this.oscillator = audioContext.createOscillator();
-		this.oscillator.type = 'square';
-		this.oscillator.frequency.value = initialFrequency;
-		this.oscillator.start();
-		this.oscillator.connect(this.gain);
-	}
-
-	playFrequency(freq, duration) {
-		this.oscillator.frequency.value = freq;
-		this.gain.gain.value = 0.6;
-		setTimeout(() => this.gain.gain.value = 0, duration);
-	}
-}
-
-
-var synth = new Synth(440);
+// var synth = new Synth(440);
 
 ReactDOM.render(
-	<components.Metronome
-		onTick={() => synth.playFrequency(510, 10)}
-		onTock={() => synth.playFrequency(440, 10)} />,
+	<components.Metronome />,
 
 	document.getElementById('content')
 );
