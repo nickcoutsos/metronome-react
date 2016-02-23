@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import components from './components';
+import Metronome from './components/metronome';
 
 function set_metronome_size() {
 	let content = document.querySelector('#content'),
@@ -51,7 +51,7 @@ function setContentSize() {
 // var synth = new Synth(440);
 
 ReactDOM.render(
-	<components.Metronome />,
+	<Metronome />,
 
 	document.getElementById('content')
 );
