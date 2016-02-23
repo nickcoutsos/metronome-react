@@ -76,6 +76,13 @@ body {
     transform: rotate(45deg);
     transform-origin: 0 0;
     box-shadow: .3em .3em 1.3em -.4em inset;
+
+    background: radial-gradient(
+      circle farthest-corner at bottom right,
+      hsl(210, 14%, 82%),
+      hsl(210, 14%, 64%)
+      70%
+    )
 }
 .needle {
     display: none;
@@ -117,11 +124,11 @@ body {
     width: 100%;
     text-align: center;
     margin: 0px;
-    
+
     color: #BCD;
     font-size: 3em;
     font-family: monospace;
-    
+
     text-shadow: 1px 1px 1px #E6EEF7,
                 -1px -1px 1px #9AB;
 }
@@ -139,14 +146,14 @@ body {
     position: absolute;
     left: -1px;
     bottom: 0px;
-    
+
     border-bottom-left-radius: 10px;
 }
 .controls :last-child {
     position: absolute;
     right: -1px;
     bottom: 0px;
-    
+
     border-bottom-right-radius: 10px;
 }
 .bpm-display {

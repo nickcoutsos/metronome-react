@@ -49,16 +49,7 @@ export class Meter extends React.Component {
 	}
 
 	render() {
-		let saturation = Math.round(this.state.tween * 45 + 14),
-			meterStyle = {
-				background: `radial-gradient(
-					circle farthest-corner at bottom right,
-					hsl(210, ${saturation}%, ${this.state.tween * 5 + 82}%),
-					hsl(210, ${saturation}%, ${this.state.tween * 20 + 64}%)
-					70%
-				)`
-			},
-			needleStyle = {
+		let needleStyle = {
 				animationDuration: `${this.props.secondsPerBeat}s`,
 				backgroundColor: `hsl(0, ${this.state.tween * 100}%, 50%)`
 			};
@@ -67,7 +58,7 @@ export class Meter extends React.Component {
 		if (this.state.animating) needleClasses.push('needle-animating');
 
 		return (
-			<div ref="meter" className="meter" onClick={this.props.onClick} style={ meterStyle }>
+			<div ref="meter" className="meter" onClick={this.props.onClick} >
 				<div className={needleClasses.join(' ')} style={ needleStyle } />
 			</div>
 		);
