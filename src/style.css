@@ -60,6 +60,10 @@ body {
     border-radius: 12px;
 
     box-shadow: 2px 2px 55px -10px;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 .meter {
     position: relative;

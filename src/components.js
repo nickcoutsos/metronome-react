@@ -164,6 +164,20 @@ export class Metronome extends React.Component {
 			this.decrement(amount);
 	}
 
+	handleTouch(e) {
+		let touch = e.touches.item(0),
+			delta = (this.lastTouch || {}).screenY - touch.screenY,
+			bpm = this.state.bpm + delta / 5;
+
+		if (e.type === 'touchstart') this.lastTouch = touch;
+		if (e.type === 'touchend' || e.type === 'touchcancel') this.lastTouch = null;
+		if (e.type !== 'touchmove' || this.lastTouch === null) return;
+
+		this.setBpm(Math.round(bpm));
+		e.preventDefault();
+		this.lastTouch = touch;
+	}
+
 	start() {
 		this.refs.meter.start();
 
@@ -196,7 +210,12 @@ export class Metronome extends React.Component {
 
 	render() {
 		return (
-			<div className="metronome" onWheel={e => this.handleScroll(e)}>
+			<div className="metronome"
+					onWheel={e => this.handleScroll(e)}
+					onTouchStart={e => this.handleTouch(e)}
+					onTouchMove={e => this.handleTouch(e)}
+					onTouchEnd={e => this.handleTouch(e)}
+				>
 				<Meter ref="meter" onClick={() => this.toggle()} secondsPerBeat={60 / this.state.bpm} />
 				<p className="controls">
 					<Button keyCode="189,37" onTrigger={() => this.decrement()}>-</Button>
